@@ -1234,28 +1234,81 @@ function 20231201p2Golf2 {
 
 function 20231201p2Golf3 {
     param (
+        [System.String]$PuzzleInput
+    )
+
+    $Total = 0
+
+    # A hashtable should be more efficient than multiple replace operators.
+    $WordDigit = @{"one"="o1e"
+                    "two"="t2o"
+                    "three"="t3e"
+                    "four"="4"
+                    "five"="5e"
+                    "six"="6"
+                    "seven"="7n"
+                    "eight"="e8t"
+                    "nine"="n9e"}
+    $Digits=$PuzzleInput
+    ForEach ($Word in $WordDigit.Keys) { $Digits = $Digits -replace "$Word",($WordDigit["$Word"]) }
+
+    $Digits -split '\r?\n' ` |
+    ForEach-Object { $_ -replace '\D' } | 
+      ForEach-Object { $_[0] + $_[-1] } |
+        ForEach-Object { $Total += 0 + $_ }; $Total
+}
+
+
+
+function 20231201p2Golf4 {
+    param (
         [System.String]$p
     )
+    # Shrink the variable names again.
 
     $t = 0
 
-    # A hashtable should be more efficient than multiple replace operators.
-    $WordDigit = @{"one"="o1ne"
-                    "two"="t2wo"
-                    "three"="t3hree"
-                    "four"="f4our"
-                    "five"="f5ive"
-                    "six"="s6ix"
-                    "seven"="s7even"
-                    "eight"="e8ight"
-                    "nine"="n9ine"}
+    $h = @{"one"="o1e"
+            "two"="t2o"
+            "three"="t3e"
+            "four"="4"
+            "five"="5e"
+            "six"="6"
+            "seven"="7n"
+            "eight"="e8t"
+            "nine"="n9e"}
+    ForEach ($w in $h.Keys) { $p = $p -replace "$w",($h["$w"]) }
 
+    $p -split '\r?\n' ` |
+      ForEach-Object { $_ -replace '\D' } | 
+        ForEach-Object { $_[0] + $_[-1] } |
+          ForEach-Object { $t += 0 + $_ }; $t
+}
 
-    $p -split '\r?\n' `
-        -replace ?????? |
-    ForEach-Object { $_ -replace '\D' } | 
-      ForEach-Object { $_[0] + $_[-1] } |
-        ForEach-Object { $t += 0 + $_ }; $t
+function 20231201p2Golf5 {
+    param (
+        [System.String]$p
+    )
+    # Shrink the variable names again, and condense the hashtable to a single line.
+
+    $t = 0
+
+    $h = @{"one"="o1e";"two"="t2o";"three"="t3e";"four"="4";"five"="5e";"six"="6";"seven"="7n";"eight"="e8t";"nine"="n9e"}
+    ForEach ($w in $h.Keys) { $p = $p -replace "$w",($h["$w"]) }; $p -split '\r?\n' ` |
+      ForEach-Object { $_ -replace '\D' } | 
+        ForEach-Object { $_[0] + $_[-1] } |
+          ForEach-Object { $t += 0 + $_ }; $t
+}
+
+function 20231201p2Golf6 {
+    param (
+        [System.String]$p
+    )
+    # One-liner.
+
+    $t = 0
+
+    $h=@{"one"="o1e";"two"="t2o";"three"="t3e";"four"="4";"five"="5e";"six"="6";"seven"="7n";"eight"="e8t";"nine"="n9e"};ForEach($w in $h.Keys){$p=$p-replace"$w",($h["$w"])};$p-split'\r?\n'|%{$_-replace'\D'}|%{$_[0]+$_[-1]}|%{$t+=0+$_};$t
 }
 
 
@@ -1267,9 +1320,9 @@ function 20231201p2Golf {
 
     $t = 0
 
-    # Fully golfed one-liner, 251 characters: 
+    # Fully golfed one-liner, 239 characters: 
 
-    $p-split'\r?\n'-replace "one","o1e"-replace "two","t2o"-replace "three","t3e"-replace "four","4"-replace "five","5e"-replace "six","6"-replace "seven","7n"-replace "eight","e8t"-replace "nine","n9e"|%{$_-replace'\D'}|%{$_[0]+$_[-1]}|%{$t+=0+$_};$t
+    $h=@{"one"="o1e";"two"="t2o";"three"="t3e";"four"="4";"five"="5e";"six"="6";"seven"="7n";"eight"="e8t";"nine"="n9e"};ForEach($w in $h.Keys){$p=$p-replace"$w",($h["$w"])};$p-split'\r?\n'|%{$_-replace'\D'}|%{$_[0]+$_[-1]}|%{$t+=0+$_};$t
     #---|----|----|----|----|----|----|----|----|----|----|----|----|----|
     #   5   10   15   20   25   30   35   40   45   50   55   60   65   70
 }
