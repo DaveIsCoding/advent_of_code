@@ -1312,6 +1312,18 @@ function 20231201p2Golf6 {
 }
 
 
+function 20231201p2Golf6 {
+    param (
+        [System.String]$p
+    )
+    # Better array slicing?
+    # $_[0]+$_[-1] == $_[0,-1]-join''
+
+    $t = 0
+
+    $h=@{"one"="o1e";"two"="t2o";"three"="t3e";"four"="4";"five"="5e";"six"="6";"seven"="7n";"eight"="e8t";"nine"="n9e"};ForEach($w in $h.Keys){$p=$p-replace"$w",($h["$w"])};$p-split'\r?\n'|%{$_-replace'\D'}|%{$_[0,-1]}|%{$t+=0+$_};$t
+}
+
 
 function 20231201p2Golf {
     param (
@@ -1320,7 +1332,7 @@ function 20231201p2Golf {
 
     $t = 0
 
-    # Fully golfed one-liner, 239 characters: 
+    # Fully golfed one-liner, 238 characters: 
 
     $h=@{"one"="o1e";"two"="t2o";"three"="t3e";"four"="4";"five"="5e";"six"="6";"seven"="7n";"eight"="e8t";"nine"="n9e"};ForEach($w in $h.Keys){$p=$p-replace"$w",($h["$w"])};$p-split'\r?\n'|%{$_-replace'\D'}|%{$_[0]+$_[-1]}|%{$t+=0+$_};$t
     #---|----|----|----|----|----|----|----|----|----|----|----|----|----|
