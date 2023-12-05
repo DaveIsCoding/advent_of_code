@@ -7,7 +7,8 @@ $PuzzleInput = Get-Content .\2023\04\puzzle_input.txt
 
 function aoc20231203p1 {
     param (
-        $PuzzleInput
+        $PuzzleInput,
+        [Switch]$Debug = $False
     )
 
 
@@ -17,7 +18,7 @@ function aoc20231203p1 {
 
 # Test with the example input.
 Write-Host "Testing code against example input:"
-If (aoc20231204p1 $ExampleInput -eq $ExampleAnswer) {$True} Else {$False}
+If (aoc20231204p1 $ExampleInput -Debug -eq $ExampleAnswer) {$True} Else {$False}
 
 # Run against the puzzle input.
 Write-Host "Running against puzzle input:"
@@ -30,7 +31,8 @@ $ExampleAnswer2 = 0
 
 function aoc20231203p2 {
     param (
-        $PuzzleInput
+        $PuzzleInput,
+        [Switch]$Debug = $False
     )
 
         # Return the answer.
@@ -41,7 +43,7 @@ function aoc20231203p2 {
 
 # Test with the example input.
 Write-Host "Testing code against example input:"
-If (aoc20231203p2 $ExampleInput -eq $ExampleAnswer2) {$True} Else {$False}
+If (aoc20231203p2 $ExampleInput -Debug -eq $ExampleAnswer2) {$True} Else {$False}
 
 # Run against the puzzle input.
 Write-Host "Running against puzzle input:"
