@@ -268,48 +268,55 @@ function Map-Ranges {
         $ToMaps
     )   
     
-    ForEach ($FromMap in $FromMaps) {
+    $OutMaps = @()
 
-        $OverlapCount = 0
+    ForEach ($ToMap in $ToMaps) {
         
-        ForEach ($ToMap in $ToMaps) {
-
+        ForEach ($FromMap in $FromMaps) {
+            
             $Overlap = Get-Overlap $FromMap.Start $FromMap.End $ToMap.SourceStart $ToMap.SourceEnd
 
-            # To Do: if a FromMap is modified, we need to handle that.
-            # Otherwise a slice that is moved can be re-moved later.
-            # We only need to care about maps that overlap.
+            # If the ToMap overlaps with the FromMap, move the overlap.
             If ($Overlap) {
-
-                $OverlapCount++
                 
                 # Slice out the overlap range and move it.
+                # This range must not be processed by further ToMaps.
                 $OutMaps += ,@{"Start" =  $Overlap[0] + $ToMap.Offset
                                "End" =    $Overlap[1] + $ToMap.Offset
                                "Length" = $Overlap[1] - $Overlap[0]}
+
                 
+                # Upate the remainder of the FromMap in place,
+                # so that subsequent ToMaps can move them.
+
                 # Make a new map for the left side, if necessary.
-                # Update the FromMap, to prevent double-slicing.
-                If ($Overlap[0] -gt $FromMap.Start) {
-                    $OutMaps += ,@{"Start" =  $FromMap.Start
+                If ($FromMap.Start -lt $Overlap[0]) {
+                    $FromMaps += ,@{"Start" =  $FromMap.Start
                                     "End" =    $Overlap[0] -1
                                     "Length" = $Overlap[0] - $FromMap.Start}
-                    $FromMap.End = $Overlap[0] - 1 
                 }
 
                 # Make a new map for the right side, if necessary.
-                If ($Overlap[1] -lt $FromMap.End) {
-                    $OutMaps += ,@{"Start" =  $Overlap[1] + 1
+                # Update the FromMap, to prevent double-slicing.
+                If ($FromMap.End -gt $Overlap[1]) {
+                    $FromMaps += ,@{"Start" =  $Overlap[1] + 1
                                     "End" =    $FromMap.End
                                     "Length" = $FromMap.End - $Overlap[1]}
                 }
+
+                # Clear the properties of the original FromMap.
+                # This will prevent any further overlaps.
+                $FromMap.Start = 0
+                $FromMap.End = 0
+                $FromMap.Length = 0
             }
         }
-        # If there was no overlap, just pass it straight through.
-        If ($OverlapCount -eq 0) {$OutMaps += ,$FromMap}
+        # Clean out any zeroed FromMaps.
+        $FromMaps = $FromMaps | Where-Object {$_.Length -gt 0}
     }
 
-    # Return the (possibly modified) source maps.
+    # Return the (possibly modified) FromMaps, and new Maps.
+    $OutMaps += $FromMaps
     $OutMaps
 }
 
