@@ -1,11 +1,14 @@
 <# #>
 
-# Input from the site, they asked not to make automated requests.
-$ExampleInput = Get-Content .\2023\04\example_input.txt
-$ExampleAnswer = 0
-$PuzzleInput = Get-Content .\2023\04\puzzle_input.txt
+$Day=00
 
-function aoc20231203p1 {
+# Input from the site, they asked not to make automated requests.
+$ExampleInput = Get-Content .\2023\$Day\example_input.txt
+$PuzzleInput = Get-Content .\2023\$Day\puzzle_input.txt
+
+$ExampleAnswer = 0
+
+function aoc202312{$Day}p1 {
     param (
         $PuzzleInput,
         [Switch]$Debug = $False
@@ -18,18 +21,20 @@ function aoc20231203p1 {
 
 # Test with the example input.
 Write-Host "Testing code against example input:"
-If (aoc20231204p1 $ExampleInput -Debug -eq $ExampleAnswer) {$True} Else {$False}
+If ((aoc202312{$Day}p1 $ExampleInput -Debug) -eq $ExampleAnswer) {$True
 
-# Run against the puzzle input.
-Write-Host "Running against puzzle input:"
-aoc20231204p1 $PuzzleInput
+    # Run against the puzzle input.
+    Write-Host "Running against puzzle input:"
+    aoc2023120{$Day}p1 $PuzzleInput
+}
+Else {$False}
 
 <# --- Part Two ---
  #>
 
 $ExampleAnswer2 = 0
 
-function aoc20231203p2 {
+function aoc202312{$Day}p2 {
     param (
         $PuzzleInput,
         [Switch]$Debug = $False
@@ -43,8 +48,10 @@ function aoc20231203p2 {
 
 # Test with the example input.
 Write-Host "Testing code against example input:"
-If (aoc20231203p2 $ExampleInput -Debug -eq $ExampleAnswer2) {$True} Else {$False}
+If ((aoc202312{$Day}p2 $ExampleInput -Debug) -eq $ExampleAnswer2) {$True
 
-# Run against the puzzle input.
-Write-Host "Running against puzzle input:"
-aoc20231204p2 $PuzzleInput
+    # Run against the puzzle input.
+    Write-Host "Running against puzzle input:"
+    aoc2023120{$Day}p2 $PuzzleInput
+}
+Else {$False}
