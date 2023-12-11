@@ -40,8 +40,8 @@ function aoc20231200p2 {
         [Switch]$Debug = $False
     )
 
-        # Return the answer.
-        $Total
+    # Return the answer.
+    $Total
 }
 
 
