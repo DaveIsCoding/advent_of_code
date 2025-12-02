@@ -40,7 +40,7 @@ ForEach ($instruction in $puzzleinput){
 $dial = 50
 $answer2 = 0
 # Work through the instructions
-ForEach ($instruction in $example){
+ForEach ($instruction in $puzzleinput){
 
   # A turn to the left is a -
   # A turn to the right is a +
@@ -49,13 +49,13 @@ ForEach ($instruction in $example){
 
   # Each time we pass 0, increment the answer
   # Start by counting whole turns
-  $answer2 += [int]([Math]::Abs($dialposition) / 100)
+  $answer2 += [Math]::Floor([Math]::Abs($move) / 100)
   
   # Check if the remainder is enough for another 0
   # e.g. -250, from 70, 70 - 50 = 20, no extra click
   # e.g. -250, from 20, 20 - 50 = -30, extra click
-  if(($move -gt 0) -and ($dial + ($move % 100) -ge 100)) {$answer2++}
-  if(($move -lt 0) -and ($dial - ([Math]::Abs($move) % 100) -le 0)) {$answer2++}
+  if(($move -gt 0) -and ($dial + ($move % 100) -ge 100) -and ($dial -ne 0)) {$answer2++}
+  if(($move -lt 0) -and ($dial - ([Math]::Abs($move) % 100) -le 0) -and ($dial -ne 0)) {$answer2++}
   
 
   # Now move the dial as per Part 1, ready for the next instruction
