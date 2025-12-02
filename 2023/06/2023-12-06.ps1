@@ -69,6 +69,7 @@ function aoc20231206p1 {
             [int64]$recordTime,
             [int64]$targetDistance
         )
+        # "Use some symmetrical properties of the equations to further simplify..." is apparently what we did here. And by "we", I mean Andrés.
         $MinChargeTime = [int64]([System.Math]::Ceiling( ( ( -1 * $recordTime ) + ( [System.Math]::Pow(( ( [System.Math]::Pow($recordTime,2) ) - (4*$targetDistance) ),0.5) ) ) / -2 ) )
 
         $MinChargeTime
@@ -79,6 +80,7 @@ function aoc20231206p1 {
             [int64]$recordTime,
             [int64]$targetDistance
         )
+        # "Use some symmetrical properties of the equations to further simplify..." is apparently what we did here. And by "we", I mean Andrés.
         $MaxChargeTime = [int64]([System.Math]::Floor( ( ( -1 * $recordTime ) - ( [System.Math]::Pow(( ( [System.Math]::Pow($recordTime,2) ) - (4*$targetDistance) ),0.5) ) ) / -2 ) )
 
         $MaxChargeTime
